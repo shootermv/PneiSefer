@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html ng-app='trempi'>
+  <head>
+    <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+	<link href="app.css" rel="stylesheet">
+    <title>trempi</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body ng-controller="trempiCtrl">
+  <header class="navbar navbar-inverse">
+       <div class="col-xs-1">
+			<span class="glyphicon glyphicon-chevron-left white-icon" ng-show="step>1" ng-click="step=step-1"></span> 
+	   </div>
+       <div class="col-xs-4"> </div>
+	   <div class="col-xs-2" style="color:#fff;padding:12px 0 0 10px;">Trempi</div>
+	   <div class="col-xs-5"></div>
+
+  </header>
+  
+  
+  
+  
+  <!-- <script type="text/javascript" src="//localhost:9000/livereload.js"></script> --> 
+  <script type="text/javascript" src="lib/angularjs/angular.min.js"></script> 
+  <script src="http:////cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>  
+  <script type="text/javascript" src="app.js"></script> 
+    <!-- step 1 -->
+    <div id="step1" class="container" ng-show="step==1"  style="text-align:center">   
+		<div class="btn-group">
+		  <button type="button" class="btn btn-primary" ng-click="step=2;user.type=2;" style="width:74px">נהג</button>
+		  <button type="button" class="btn btn-primary active" ng-click="step=2;user.type=1" >טרמפיסט</button>
+		</div>    
+    </div>
+	<!-- step 2 -->
+    <div id="step2" class="container" ng-show="step==2">
+	   <input type="text" class="form-control" placeholder="שם"    ng-model="user.name">
+	   <input type="text" class="form-control" placeholder="טלפון" ng-model="user.phone">
+	   <input type="text" class="form-control" placeholder="יעד"   ng-model="user.dest">
+	   <input type="text" class="form-control" placeholder="זמן"   ng-model="user.date"  mo-date-input="{{'HH:mm DD/MM/YYYY'}}">
+	   <button type="button" class="btn btn-primary" ng-click="saveTremp(user);" style="width:100%">שמור</button>
+    </div>
+	<!-- step 3 -->
+    <div id="step3" class="container" ng-show="step==3">
+		<table class="table table-bordered table-condensed table-striped table-hover">
+			<tbody>
+				<tr ng-repeat="tremp in tremps">
+					<td>{{tremp.name}}</td>
+					<td>{{tremp.destination}}</td>
+					<td><a href="tel:{{tremp.phone}}">{{tremp.phone}}</a></td>
+				</tr>		
+			</tbody>
+		</table>
+  </div>
+ 
+  </body>
+</html>
