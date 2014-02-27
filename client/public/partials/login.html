@@ -1,0 +1,54 @@
+﻿
+
+ <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container">
+		<div class="_navbar-header">
+<!-- 		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		  			<span class="sr-only">Toggle navigation</span>
+		  			<span class="icon-bar"></span>
+		  			<span class="icon-bar"></span>
+		  			<span class="icon-bar"></span>
+		  </button> -->
+		 <h3 class="title-message">כניסה למערכת</h3>
+		</div>
+		<div class="collapse navbar-collapse">
+			
+		</div><!--/.nav-collapse -->
+	  </div>
+</div>
+
+
+ <div id="wrap" class="view-container container">
+	<form class="form-signin form-group" ng-class="{'has-error':login_form.$invalid && login_form.$dirty}" role="form" name="login_form">  
+        <h2 class="form-signin-heading">כניסה</h2>
+        <input type="text" class="form-control" placeholder="שם משתמש" name="username" required="" autofocus="" ng-model="user.name">
+        <input type="password" name="password" class="form-control" placeholder="סיסמא" required="" ng-model="user.password"  >
+        
+          <label style="display:inline-block;margin-right:10px">
+		  זכור אותי</label>
+		  <input type="checkbox" value="remember-me" class="pull-right" >
+       
+		<div class="alert alert-danger" ng-show="login_form.$invalid && login_form.$dirty">
+		שדות חובה
+		</div>
+        <div class="alert alert-danger" ng-show="error">		  
+		 {{error}}
+		</div>
+			
+
+    </form>
+</div>
+<div class="container" >
+  <div class="form-signin">
+      <a href="#/register" >הרשמה</a>  
+   </div>
+</div>
+<div id="footer">
+  <div class="container">
+    <div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	<button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="goToHoAmIPage($event)">שלח</button>
+	</div>
+	<div class="col-xs-4"></div>        
+  </div>
+</div>
