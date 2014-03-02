@@ -19,7 +19,7 @@
 
 
  <div id="wrap" class="view-container container">
-	<form class="form-signin form-group" ng-class="{'has-error':login_form.$invalid && login_form.$dirty}" role="form" name="login_form">  
+	<form class="form-signin form-group" ng-class="{'has-error':login_form.$invalid && login_form.$dirty || showError}" role="form" name="login_form">  
         <h2 class="form-signin-heading">כניסה</h2>
         <input type="text" class="form-control" placeholder="שם משתמש" name="username" required="" autofocus="" ng-model="user.name">
         <input type="password" name="password" class="form-control" placeholder="סיסמא" required="" ng-model="user.password"  >
@@ -28,7 +28,7 @@
 		  זכור אותי</label>
 		  <input type="checkbox" value="remember-me" class="pull-right" >
        
-		<div class="alert alert-danger" ng-show="login_form.$invalid && login_form.$dirty">
+		<div class="alert alert-danger" ng-show="login_form.$invalid && login_form.$dirty || showError">
 		שדות חובה
 		</div>
         <div class="alert alert-danger" ng-show="error">		  

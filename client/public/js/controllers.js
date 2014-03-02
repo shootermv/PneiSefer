@@ -9,7 +9,11 @@
 
    //login
   $scope.goToHoAmIPage = function(event){
-    if($scope.login_form.$invalid)  return false;
+   
+    if($scope.login_form.$invalid){
+	   $scope.showError =true;
+    	return false;
+	}
     $scope.error=null;
     Auth.login($scope.user, function(){//on success		
         Gcm.register(function(){
@@ -24,6 +28,23 @@
 	});
   }  
 }])
+.controller('registerCtrl',['$scope', '$location', 'Auth', function($scope, $location, Auth){
+   $scope.user = {};//Auth.user;
+   
+    
+    $scope.goToLoginPage = function(event){
+		if($scope.register_form.$invalid){
+		   $scope.showError =true;
+			return false;
+		} 	
+	    Auth.regiter($scope.user, function(){//on success	
+          $location.path('login'); 
+		},function(error){
+			if(error=='')error='שגיאה'
+			$scope.error = error;
+	    });	
+    }   
+ }]) 
 .controller('WhoAmICtrl',['$scope', '$location', 'Auth', function($scope, $location, Auth){
   
   $scope.user = Auth.user;
@@ -39,13 +60,6 @@
 	$location.path('form');
   } 
 }])
-.controller('registerCtrl',['$scope', '$location', 'Auth', function($scope, $location, Auth){
-   $scope.user = {};//Auth.user;
-   $scope.goToLoginPage = function(event){
-      $location.path('list'); 
-
-    }   
- }]) 
 .controller('FormCtrl',['$scope', '$location', 'Auth', 'Tremps', function($scope, $location, Auth, Tremps){
 
   

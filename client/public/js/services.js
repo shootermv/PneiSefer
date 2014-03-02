@@ -44,6 +44,17 @@ angular.module('Trempi')
             });		
 		
 		},
+		regiter:function(user, success, error) {
+		   $http({
+		      url: serverUrl +'/register',
+              method: 'POST',
+              data:user             
+			}).success(function(user, status, headers, config){				
+				success();
+			}).error(function (_error, status, headers, config) {
+                error(_error);
+            });			
+		},
 		updateUserType:	function(user, success, error) {
 			changeUser(user);
 		},
