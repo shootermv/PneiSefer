@@ -1,28 +1,32 @@
 ﻿angular.module("Trempi")
 .controller('LoginCtrl',['$scope', '$location', 'Auth', 'Gcm', function($scope, $location, Auth, Gcm){
-  $scope.user = Auth.user;
-  
-  if($scope.user.name !== undefined) { //if user stored inside local storage brings me to list page
-	   $location.path('list');
-  }
  
+
+  $scope.loading = false;
+
+  if(Auth.isAuthenticated()){
+	 $location.path('list');
+  }
+  $scope.user = Auth.user;
 
    //login
   $scope.goToHoAmIPage = function(event){
-   
+    
     if($scope.login_form.$invalid){
 	   $scope.showError =true;
     	return false;
+	}else{//valid
+		$scope.loading = true;
 	}
     $scope.error=null;
     Auth.login($scope.user, function(){//on success		
-        Gcm.register(function(){
-            	
-			$location.path('whoami');
-			
+	    
+        Gcm.register(function(){            	
+			$location.path('whoami');			
 		});
 		
 	},function(error){
+	    $scope.loading = false;
 	    if(error=='')error='שגיאה'
 		$scope.error = error;
 	});
@@ -37,7 +41,7 @@
 		   $scope.showError =true;
 			return false;
 		} 	
-	    Auth.regiter($scope.user, function(){//on success	
+	    Auth.register($scope.user, function(){//on success	
           $location.path('login'); 
 		},function(error){
 			if(error=='')error='שגיאה'
@@ -47,8 +51,13 @@
  }]) 
 .controller('WhoAmICtrl',['$scope', '$location', 'Auth', function($scope, $location, Auth){
   
-  $scope.user = Auth.user;
-  $scope.user.type = 'driver';//by default should be driver
+  if(Auth.isAuthenticated()){
+	$scope.user = Auth.user;
+  }else{
+	$location.path('login');
+  }
+ 
+  if(!$scope.user.type)$scope.user.type = 'driver';//by default should be driver
   
   $scope.goToLoginPage = function(event){
     event.preventDefault();
@@ -61,9 +70,12 @@
   } 
 }])
 .controller('FormCtrl',['$scope', '$location', 'Auth', 'Tremps', function($scope, $location, Auth, Tremps){
-
-  
-  $scope.user = Auth.user;
+  if(Auth.isAuthenticated()){
+	$scope.user = Auth.user;
+  }else{
+	$location.path('login');
+  }
+  $scope.loading = false;
   $scope.user.when = new Date();
   
   $scope.goToWhoAmIPage = function(event){
@@ -74,19 +86,30 @@
      $location.path('list'); 
   }  
   $scope.goToListPage = function(event){
+	if($scope.tremp_details.$invalid){
+	   $scope.showError =true;
+	   return false;
+	}else{//valid	  
+	
+		$scope.loading = true;
+	}
     Auth.updateUserDetails($scope.user);
 	//send new tremp
-	Tremps.save($scope.user,function(data){
+
+	Tremps.save($scope.user, function(data){
 		$location.path('list');
 	},function(err){
-		alert('failure!')
-	});
-	
-	
+	    $scope.loading = false;
+		$scope.error= err;
+	});		
   }   
 }])
 .controller('ListCtrl',['$rootScope', '$scope', '$location', 'Tremps', 'Auth', 'Gcm',  function($rootScope, $scope, $location, Tremps, Auth, Gcm){
-  $scope.user = Auth.user;
+  if(Auth.isAuthenticated()){
+	$scope.user = Auth.user;
+  }else{
+	$location.path('login');
+  }
   $scope.getTremps= function(){
       $scope.loading = true;
 	  Tremps.getTremps($scope.user ,function(tremps){

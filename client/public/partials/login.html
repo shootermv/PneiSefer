@@ -19,7 +19,11 @@
 
 
  <div id="wrap" class="view-container container">
-	<form class="form-signin form-group" ng-class="{'has-error':login_form.$invalid && login_form.$dirty || showError}" role="form" name="login_form">  
+    <div ng-if="loading"  class="loader-wrap">
+     <div ng-include=" 'partials/loader.html' "></div>
+    </div>
+    
+	<form  ng-hide="loading"  class="form-signin form-group" ng-class="{'has-error':login_form.$invalid && login_form.$dirty || showError}" role="form" name="login_form">  
         <h2 class="form-signin-heading">כניסה</h2>
         <input type="text" class="form-control" placeholder="שם משתמש" name="username" required="" autofocus="" ng-model="user.name">
         <input type="password" name="password" class="form-control" placeholder="סיסמא" required="" ng-model="user.password"  >
@@ -37,9 +41,10 @@
 			
 
     </form>
+	
 </div>
 <div class="container" >
-  <div class="form-signin">
+  <div class="form-signin" ng-hide="loading">
       <a href="#/register" >הרשמה</a>  
    </div>
 </div>

@@ -6,8 +6,8 @@
 		<button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="goToFormPage($event)">חזרה</button>
 		</div>
 		<div class="col-xs-4">
-		  	<h3 class="title-message" ng-if="user.userType=='driver'">רשימת טרמפיסטים</h3>
-			<h3 class="title-message" ng-if="user.userType=='trempist'">רשימת נהגים</h3>		
+		  	<small class="title-message" ng-if="user.type=='driver'">רשימת טרמפיסטים</small>
+			<small class="title-message" ng-if="user.type=='trempist'">רשימת נהגים</small>		
 		</div>
 		<div class="col-xs-4">
 		   <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="fireEvent()">bbb</button> 
@@ -21,7 +21,11 @@
      <div ng-include=" 'partials/loader.html' "></div>
   </div>
   <ul class="list-group">
-	  <li class="list-group-item" ng-repeat="tremp in tremps" >
+      <li class="list-group-item" style="text-align:center" ng-show="!tremps.length && !loading" >
+		  	<h4  ng-if="user.type=='driver'">לא נרשמו טרמפיסטים עדיין</h4>
+			<h4  ng-if="user.type=='trempist'">לא נרשמו נהגים עדיין</h4>		
+	  </li> 
+	  <li class="list-group-item" ng-repeat="tremp in tremps" ng-show="tremps.length">
 		<h4 class="list-group-item-heading">{{tremp.name}}</h4>
 		<p class="list-group-item-text"> <strong>מאיפה:</strong>  {{tremp.from}}  </p>
 		<p class="list-group-item-text"> <strong>לאן:</strong>  {{tremp.to}}   </p>

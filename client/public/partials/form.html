@@ -8,8 +8,8 @@
 		  			<span class="icon-bar"></span>
 		  			<span class="icon-bar"></span>
 		  </button> -->
-		   <h3 class="title-message" ng-if="user.userType=='driver'">פרטי הנסיעה</h3>
-		   <h3 class="title-message" ng-if="user.userType=='trempist'">פרטי הטרמף</h3>
+		   <h3 class="title-message" ng-if="user.type=='driver'">פרטי הנסיעה</h3>
+		   <h3 class="title-message" ng-if="user.type=='trempist'">פרטי הטרמף</h3>
 		</div>
 		<div class="collapse navbar-collapse" >		   
 			
@@ -19,19 +19,33 @@
 </div>
 
 <div id="wrap" class="view-container container">
-  <div class="form-group">
-    <label for="exampleInputEmail1">מאיפה</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="מאיפה" ng-model="user.from">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">לאיפה</label>
-    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="לאיפה" ng-model="user.to">
-  </div>
-  <div class="form-group"><label for="exampleInputEmail1">מתי</label>
-  	 <my-date-picker  ng-model="user.when"> </my-date-picker>
-  </div>   
+<div ng-if="loading"  class="loader-wrap">
+ <div ng-include=" 'partials/loader.html' "></div>
 </div>
-  
+<div class="alert alert-danger" ng-show="error">		  
+	{{error}}
+</div>
+
+<form name="tremp_details" ng-hide="loading">
+  <div class="form-group" ng-class="{'has-error':tremp_details.from.$invalid && (tremp_details.from.$dirty || showError)}">
+    <label for="exampleInputEmail1">מאיפה</label>
+    <input type="text" required class="form-control" id="exampleInputEmail1" placeholder="מאיפה" ng-model="user.from" name="from">
+  </div>
+  <div class="form-group" ng-class="{'has-error':tremp_details.to.$invalid && (tremp_details.to.$dirty || showError)}">
+    <label for="exampleInputEmail1">לאיפה</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="לאיפה" required ng-model="user.to" name="to">
+  </div>
+   <div class="form-group clearfix">
+     <label for="exampleInputEmail1">מתי</label>
+  	 <my-date-picker  ng-model="user.when"> </my-date-picker>
+  </div>
+
+</form>  
+<div class="alert alert-danger" ng-show="tremp_details.$invalid && tremp_details.$dirty || showError">
+נא למלא שדות חובה
+</div>
+</div>
+
   
 <div id="footer">
   <div class="container">

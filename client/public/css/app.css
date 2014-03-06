@@ -67,3 +67,14 @@ ul{padding:0;}
 }
 /*---------LIST------------*/
 .loader-wrap{margin-top:35px;}
+input[type=number].ng-invalid{
+  border:1px solid red;
+}
+/*--------TIME-------*/
+
+.time-input{
+  width:40px;
+}
+.num-section{
+width:40px
+}

@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "dependencies": {
     "express": "*",
-	"socket.io": "*",
+	"node-gcm": "*",
 	"mongoose": "*",
-	"ejs": "*"
+	"ejs": "*",
+	"passport":"*",
+	"passport-local":"*",
+	"underscore": "~1.5.2"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node server.js"
   },  
   "engines": {
     "node": "*",

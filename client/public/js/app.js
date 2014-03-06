@@ -26,9 +26,8 @@ angular.module("Trempi",['ngRoute'])
         redirectTo: '/login'
       });
  }])
- /*.run(['Gcm', function (Gcm) {
- 	    //register to notification
-	    Gcm.register();
- }]);*/		
+ .run([ function () { 	    
+	    new FastClick(document.body);
+ }])	
 .constant('serverUrl','http://localhost:3000')// 'http://trempi.herokuapp.com')	
 .constant('realDevice',false)// true)

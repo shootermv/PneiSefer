@@ -37,6 +37,7 @@ describe('Controllers', function() {
 		it('user should be empty',function(){	
             expect($scope.user).toEqual({});					
 		});
+		
 	})
     describe('LoginCtrl - if something already inside storage', function() {			  		
 		var $rootScope, $scope, $location, Auth, $controller;
@@ -62,11 +63,11 @@ describe('Controllers', function() {
 			});		
 		})); 
 		
-				
+			
 		it('should redirect to /list if user is stored in storage',function(){	           
 			expect($location.path).toHaveBeenCalledWith('list');
 		});
-		//test successfull login
+		
 	});
 	
 
@@ -90,24 +91,29 @@ describe('Controllers', function() {
 				'$location':$location,
 				'Auth':Auth				
 			});
-		})); 	
+		})); 
+        	
 	    it('WhoAmICtrl - scope.user must be defined',function(){	 
 			expect($scope.user).toBeDefined();
-            expect($scope.user.userType).toEqual('driver')		
+            expect($scope.user.type).toEqual('driver')		
 		})
-		//angular upadte user to be called
+		
+		
 	
 	});
     describe('FormCtrl	', function() {
 	    var $rootScope, $scope, $location, Auth, $controller;
 		beforeEach(inject(function($injector) {
 			$rootScope = $injector.get('$rootScope');
-			$scope = $rootScope.$new();						
+			$scope = $rootScope.$new();	
+            //for validation
+            $scope.tremp_details={$invalid:false}
 			$location = jasmine.createSpyObj('$location',['path']);	
 			Auth = {
 				user: {name:'מלכה סלע'},				
                 updateUserDetails:function(){					
 				}
+				
 			};
 			//spy
 			spyOn(Auth, 'updateUserDetails').andCallThrough();
@@ -119,13 +125,14 @@ describe('Controllers', function() {
 				'$location':$location,
 				'Auth':Auth				
 			});
-		})); 	
+		})); 
+        	
 	    it('FormCtrl - scope.user must be defined',function(){	 
 			expect($scope.user).toBeDefined();
             $scope.goToListPage();
             expect(Auth.updateUserDetails).toHaveBeenCalled() 			
 		})
-		//angular upadte user to be called	
+		
 	});
 	
 	
@@ -150,11 +157,13 @@ describe('Controllers', function() {
 				'Auth':Auth,
 				'Tremps':Tremps
 			});
-		})); 			
+		})); 
+        		
 	    it('ListCtrl - scope.user must be defined',function(){	 
 			expect($scope.user).toBeDefined();
 			expect(angular.isFunction(Tremps.getTremps)).toEqual(true);
 		})	
+		
 	})
 	
 	

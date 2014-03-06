@@ -5,10 +5,11 @@ angular.module('Trempi')
     var currentUser = {};
 	
 	
-    if(localStorage.getItem("user")){
-       	
+    if(localStorage.getItem("user")){       
        currentUser = JSON.parse(localStorage.getItem("user"));
 	}
+	
+	
     function changeUser(user) {
         angular.extend(currentUser, user);
 		localStorage.setItem("user", JSON.stringify(user));
@@ -44,7 +45,7 @@ angular.module('Trempi')
             });		
 		
 		},
-		regiter:function(user, success, error) {
+		register:function(user, success, error) {
 		   $http({
 		      url: serverUrl +'/register',
               method: 'POST',
@@ -61,6 +62,9 @@ angular.module('Trempi')
 		updateUserDetails:	function(user, success, error) {
 			changeUser(user);
 		},
+		isAuthenticated:function(){//returns false if currentUser is empty object
+		   return !(typeof currentUser.name==="undefined");
+		},
 		user:currentUser
 	}
 }])
@@ -74,8 +78,8 @@ angular.module('Trempi')
 				data: user,
 		    }).success(function(tremps, status, headers, config){
                success(tremps);	
-            }).error(function (data, status, headers, config) {
-               
+            }).error(function (err, status, headers, config) {
+               error(err)
             });						
 		},
         getTremps: function(user, success, error){
