@@ -55,6 +55,7 @@
 	$scope.user = Auth.user;
   }else{
 	$location.path('login');
+	return;
   }
  
   if(!$scope.user.type)$scope.user.type = 'driver';//by default should be driver

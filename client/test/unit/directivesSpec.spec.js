@@ -29,30 +29,20 @@ describe('directives', function() {
             location = $location
 			compile = $compile;
 			
-            //$httpBackend.whenGET('partials/mydatepicker.html').passThrough();
+           
 			$templateCache.put("partials/mydatepicker.html", templ);
 		}));
 		
-		it('when location is same ',function(){
-		    location.path('someurl');
-		
+		it('should place 2 inputs on the dom ',function(){
+		    
+		    scope.user={when : new Date()};
 		    var elem = compile("<my-date-picker  ng-model='user.when'> </my-date-picker>")(scope);
 			
 			//fire watch
 			scope.$apply();            		
 			expect(elem.find('input').length).toEqual(2);
 		});
-		/*
-		it('when location is different from "href" of link - the "active" class must be removed',function(){
-		    location.path('some_different_url');
-		    //initially  decorated with 'active'
-		    var elem = compile("<li data-active-nav class='active'><a href='http://server/someurl'>somelink</a></li>")(scope);
-			
-			//fire watch
-			scope.$apply();            		
-			expect(elem.hasClass('active')).toBe(false);
-		})
-		*/
+        
 	})
 
 });

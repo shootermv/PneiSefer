@@ -6,7 +6,7 @@
 describe('Controllers', function() {	
 	beforeEach(module('Trempi'));
 	
-	
+	var serverUrl='http://localhost:3000';
 	
     describe('LoginCtrl nothing strored in storage', function() {		  		
 		var  $rootScope, $scope, $location, Auth, $controller;
@@ -15,15 +15,17 @@ describe('Controllers', function() {
 			$rootScope = $injector.get('$rootScope');
 			$scope = $rootScope.$new();						
 			$location = jasmine.createSpyObj('$location',['path']);	
+			var store = [];
+			//store['user'] = '{\"name\":\"shlomo\"}';
+            spyOn(localStorage, 'getItem').andCallFake(function (key) {
+				return store[key];
+			});				
+			
+            Auth = $injector.get('Auth');			
 			
 
 			//mockin the Auth
-			Auth = {
-				user: {},				
-                login:function(user, success){
-					success();
-				}				
-			};	
+	
 			
             //init the controller:
 		    $controller = $injector.get('$controller');	
@@ -39,21 +41,21 @@ describe('Controllers', function() {
 		});
 		
 	})
+	
     describe('LoginCtrl - if something already inside storage', function() {			  		
 		var $rootScope, $scope, $location, Auth, $controller;
 		
 		beforeEach(inject(function($injector) {
 			$rootScope = $injector.get('$rootScope');
 			$scope = $rootScope.$new();						
-			$location = jasmine.createSpyObj('$location',['path']);	
-			
-			Auth = {
-				user: {name:'מלכה סלע'},				
-                login:function(user, success){
-					success();
-				}
-			};
-			
+			$location = jasmine.createSpyObj('$location',['path']);
+			var store = [];
+			store['user'] = '{\"name\":\"shlomo\"}';
+            spyOn(localStorage, 'getItem').andCallFake(function (key) {
+				return store[key];
+			});			
+			Auth = $injector.get('Auth');
+
             //init the controller:
 		    $controller = $injector.get('$controller');	
 			$controller('LoginCtrl',{  				
@@ -78,11 +80,12 @@ describe('Controllers', function() {
 			$rootScope = $injector.get('$rootScope');
 			$scope = $rootScope.$new();						
 			$location = jasmine.createSpyObj('$location',['path']);	
-			Auth = {
-				user: {name:'מלכה סלע'},				
-                updateUserType:function(){					
-				}
-			};
+			var store = [];
+			store['user'] = '{\"name\":\"shlomo\"}';
+            spyOn(localStorage, 'getItem').andCallFake(function (key) {
+				return store[key];
+			});				
+			Auth = $injector.get('Auth');
 			
             //init the controller:
 		    $controller = $injector.get('$controller');	
@@ -96,11 +99,39 @@ describe('Controllers', function() {
 	    it('WhoAmICtrl - scope.user must be defined',function(){	 
 			expect($scope.user).toBeDefined();
             expect($scope.user.type).toEqual('driver')		
-		})
-		
-		
+		})			
 	
 	});
+	//if user not defined the controller should redirect to login page
+    describe('WhoAmICtrl', function() {
+	    var $rootScope, $scope, $location, Auth, $controller;
+		beforeEach(inject(function($injector) {
+			$rootScope = $injector.get('$rootScope');
+			$scope = $rootScope.$new();						
+			$location = jasmine.createSpyObj('$location',['path']);	
+			var store = [];
+			//store['user'] = '{\"name\":\"shlomo\"}';
+            spyOn(localStorage, 'getItem').andCallFake(function (key) {
+				return store[key];
+			});				
+			Auth = $injector.get('Auth');
+			
+            //init the controller:
+		    $controller = $injector.get('$controller');	
+			$controller('WhoAmICtrl',{  				
+				'$scope':$scope,
+				'$location':$location,
+				'Auth':Auth				
+			});
+		})); 
+        	
+		it('should redirect to /login if user not authenticated',function(){	           
+			expect($location.path).toHaveBeenCalledWith('login');
+		});		
+	
+	});
+		
+	
     describe('FormCtrl	', function() {
 	    var $rootScope, $scope, $location, Auth, $controller;
 		beforeEach(inject(function($injector) {
@@ -109,12 +140,13 @@ describe('Controllers', function() {
             //for validation
             $scope.tremp_details={$invalid:false}
 			$location = jasmine.createSpyObj('$location',['path']);	
-			Auth = {
-				user: {name:'מלכה סלע'},				
-                updateUserDetails:function(){					
-				}
-				
-			};
+			var store = [];
+			store['user'] = '{\"name\":\"shlomo\"}';
+            spyOn(localStorage, 'getItem').andCallFake(function (key) {
+				return store[key];
+			});				
+			
+            Auth = $injector.get('Auth');
 			//spy
 			spyOn(Auth, 'updateUserDetails').andCallThrough();
 			
@@ -138,15 +170,19 @@ describe('Controllers', function() {
 	
 	
 	describe('ListCtrl	', function() {
-		var $rootScope, $scope, $location, Auth, Tremps, $controller;
+		var $rootScope, $scope, $location, Auth, Tremps, $controller, $httpBackend;
 		beforeEach(inject(function($injector) {
 			$rootScope = $injector.get('$rootScope');
 			$scope = $rootScope.$new();	
 			$location = jasmine.createSpyObj('$location',['path']);	
-			Auth = {
-				user: {name:'מלכה סלע'},				
-
-			};
+			var store = [];
+			store['user'] = '{\"name\":\"shlomo\"}';
+            spyOn(localStorage, 'getItem').andCallFake(function (key) {
+				return store[key];
+			});				
+			$httpBackend = $injector.get('$httpBackend');
+			$httpBackend.expectPOST(serverUrl+'/registerDevice', {regid:'12345'}).respond(200);
+            Auth = $injector.get('Auth');
 			Tremps = {
 			   getTremps:function(){}
 			}
@@ -158,13 +194,20 @@ describe('Controllers', function() {
 				'Tremps':Tremps
 			});
 		})); 
-        		
-	    it('ListCtrl - scope.user must be defined',function(){	 
+ 		afterEach(function() {
+			$httpBackend.verifyNoOutstandingExpectation();
+			$httpBackend.verifyNoOutstandingRequest();
+		});       		
+	    it('ListCtrl - scope.user must be defined',function(){ 
 			expect($scope.user).toBeDefined();
 			expect(angular.isFunction(Tremps.getTremps)).toEqual(true);
+			$httpBackend.flush();
+			
 		})	
 		
 	})
+	
+	
 	
 	
 });

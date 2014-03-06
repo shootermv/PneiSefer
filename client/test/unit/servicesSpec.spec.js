@@ -43,6 +43,7 @@ describe('services', function() {
 			expect(authSvc.user).toEqual({});
 		});
 		
+		
     });
     describe('Auth service when some detail already inside localstorage', function() {
 		var authSvc,

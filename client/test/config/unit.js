@@ -8,7 +8,7 @@ module.exports = function(config){
 		files : [
 		    JASMINE,
 		    JASMINE_ADAPTER,
-
+            'public/js/fastclick.js',
 			'public/lib/angular/angular.min.js',
 			'public/lib/angular/**/*.js',  		
 			'test/vendor/angular/angular-mocks.js',
