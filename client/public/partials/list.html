@@ -21,11 +21,14 @@
      <div ng-include=" 'partials/loader.html' "></div>
   </div>
   <ul class="list-group">
-      <li class="list-group-item" style="text-align:center" ng-show="!tremps.length && !loading" >
+      <div class="alert alert-danger" ng-show="error">		  
+		{{error}}
+	  </div>
+      <li class="list-group-item" style="text-align:center" ng-show="!tremps.length && !loading && !error" >
 		  	<h4  ng-if="user.type=='driver'">לא נרשמו טרמפיסטים עדיין</h4>
 			<h4  ng-if="user.type=='trempist'">לא נרשמו נהגים עדיין</h4>		
 	  </li> 
-	  <li class="list-group-item" ng-repeat="tremp in tremps" ng-show="tremps.length">
+	  <li class="list-group-item" ng-repeat="tremp in tremps" ng-show="tremps.length" ng-hide="error">
 		<h4 class="list-group-item-heading">{{tremp.name}}</h4>
 		<p class="list-group-item-text"> <strong>מאיפה:</strong>  {{tremp.from}}  </p>
 		<p class="list-group-item-text"> <strong>לאן:</strong>  {{tremp.to}}   </p>

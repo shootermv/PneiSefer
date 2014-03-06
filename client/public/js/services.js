@@ -95,7 +95,7 @@ angular.module('Trempi')
 	}
 }])
 .factory('Gcm',['$rootScope', '$http', 'serverUrl', 'realDevice', function($rootScope, $http, serverUrl, realDevice){
-    var pushNotification, callback;
+    var pushNotification, callback,  errcallback  ;
     if(realDevice){
     	pushNotification = window.plugins.pushNotification;
 	}
@@ -105,10 +105,10 @@ angular.module('Trempi')
 	 
 	 
     var registersuccessHandler = function(event){
-      // alert('register success')
+       //alert('register success')
     }
-    var registererrorHandler = function(event){
-      // aler('register error ')
+    var registererrorHandler = function(data){
+      errcallback(data);
     }
     window.onNotificationGCM= function(e){
         switch( e.event )
@@ -126,7 +126,7 @@ angular.module('Trempi')
 					    //alert('device registered');
 						callback();
 					}).error(function (data, status, headers, config) {
-					   //alert('error while registering device');
+					    errcallback(data);
 					});						
                 }
                 break;
@@ -141,7 +141,7 @@ angular.module('Trempi')
                 break;
 
             case 'error':
-                alert('GCM error = '+e.msg);
+                callback('error while sending push notification');
                 break;
 
             default:
@@ -152,18 +152,19 @@ angular.module('Trempi')
 
 	
    return {
-      register:	function(_callback){
+      register:	function(_callback, _errcallback){
 	      callback = _callback;
+		  errcallback = _errcallback;
+		  
 	      if(realDevice){
+		    setTimeout(function(){
 				pushNotification.register(registersuccessHandler, registererrorHandler,{"senderID":"393773537671","ecb":"onNotificationGCM"});
+				
+			},100);
 		  }
-		  else{
-		     
+		  else{		     
 		     window.onNotificationGCM({event:'registered', regid:'12345'})
-		  }
-		  
-		  
-		  
+		  }		  		  	
       }	  
    }
 }]);

@@ -120,8 +120,16 @@
 		alert('error while getting tremps')
 	  });
   };
-  Gcm.register(function(){});
-  $scope.getTremps();
+  
+  Gcm.register(function(){
+     $scope.getTremps();
+  },function(data){
+     $scope.error = data;
+  });
+  
+  
+  
+  
   $scope.goToFormPage = function(event){
     event.preventDefault();
 	$location.path('form');
