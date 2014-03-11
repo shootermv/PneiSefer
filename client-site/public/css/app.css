@@ -1,0 +1,111 @@
+/*variables*/
+
+html {
+  direction: rtl;
+}
+
+body {
+  height: 100%;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+a.list-group-item.active,
+a.list-group-item.active:hover,
+a.list-group-item.active:focus {
+  background-color: #71b216;
+}
+
+.navbar-default {
+  background-color: #f7921e;
+  background-image: none;
+}
+
+#wrap {
+  padding: 60px 0;
+}
+
+.view-container {
+  color: #71B216;
+}
+
+.view-container li.list-group-item:hover {
+  color: #428bca;
+  cursor: pointer;
+  background-color: #f5f5f5;
+}
+
+.btn-primary {
+  background: #71b216;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.active {
+  background: #3c5912;
+}
+
+.btn-group-wrap {
+  text-align: center;
+}
+
+.btn-group-wrap .btn {
+  width: 100px;
+}
+
+ul {
+  padding: 0;
+}
+
+.title-message {
+  padding: 0;
+  margin: 10px 0;
+  color: #fff;
+  text-align: center;
+}
+
+/*---------LIST------------*/
+
+.loader-wrap {
+  margin-top: 35px;
+}
+
+input[type=number].ng-invalid {
+  border: 1px solid red;
+}
+
+/*---------TIME-------*/
+
+.time-input {
+  width: 40px;
+}
+
+.num-section {
+  width: 40px;
+}

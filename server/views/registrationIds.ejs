@@ -1,0 +1,17 @@
+<% if (registrationIds.length==0) { %>
+<p style="color:red;font-weight:bold">no devices registered yet...</p>
+<% }else{ %>
+<p style="color:gray;font-weight:bold">registered devices:</p>
+<table style="border-collapse:collapse">
+<% for(var i=0; i<registrationIds.length; i++) {%>
+	<tr>
+	    <td style="border:1px solid blue;">
+		  <a href="/removeDevice/<%= i %>">x</a>
+		</td>
+		<td style="border:1px solid blue;">
+		  <%= registrationIds[i] %>
+		</td>
+	</tr>
+<% } %>	
+<table>
+<% } %>	

@@ -1,0 +1,39 @@
+﻿   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	  <div class="container">
+	  
+  
+		<div class="col-xs-4">
+		<button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="goToFormPage($event)">חזרה</button>
+		</div>
+		<div class="col-xs-4">
+		  	<small class="title-message" ng-if="user.type=='driver'">רשימת טרמפיסטים</small>
+			<small class="title-message" ng-if="user.type=='trempist'">רשימת נהגים</small>		
+		</div>
+		<div class="col-xs-4">
+		   <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="fireEvent()">bbb</button> 
+		</div>
+
+
+	  </div>
+</div>
+<div id="wrap" class="view-container container" >
+  <div ng-if="loading" class="loader-wrap">
+     <div ng-include=" 'partials/loader.html' "></div>
+  </div>
+  <ul class="list-group">
+      <div class="alert alert-danger" ng-show="error">		  
+		{{error}}
+	  </div>
+      <li class="list-group-item" style="text-align:center" ng-show="!tremps.length && !loading && !error" >
+		  	<h4  ng-if="user.type=='driver'">לא נרשמו טרמפיסטים עדיין</h4>
+			<h4  ng-if="user.type=='trempist'">לא נרשמו נהגים עדיין</h4>		
+	  </li> 
+	  <li class="list-group-item" ng-repeat="tremp in tremps" ng-show="tremps.length" ng-hide="error">
+		<h4 class="list-group-item-heading">{{tremp.name}}</h4>
+		<p class="list-group-item-text"> <strong>מאיפה:</strong>  {{tremp.from}}  </p>
+		<p class="list-group-item-text"> <strong>לאן:</strong>  {{tremp.to}}   </p>
+		<p class="list-group-item-text"><strong>מתי:</strong> {{tremp.when | myDate}}</p>
+		<p class="list-group-item-text"><strong>טל:</strong>  <a href="tel:{{tremp.phone}}">{{tremp.phone}}</a></p>
+	  </li> 
+  </ul>
+</div>

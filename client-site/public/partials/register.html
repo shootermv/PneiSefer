@@ -1,0 +1,58 @@
+﻿  
+<div class="navbar navbar-default navbar-fixed-top_" role="navigation">
+	  <div class="container">
+		<div class="_navbar-header">
+<!-- 		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		  			<span class="sr-only">Toggle navigation</span>
+		  			<span class="icon-bar"></span>
+		  			<span class="icon-bar"></span>
+		  			<span class="icon-bar"></span>
+		  </button> -->
+	            <h3 class="title-message">הרשמה</h3>
+		</div>
+		<div class="collapse navbar-collapse" >		   
+			
+		</div>		
+<!--/.nav-collapse -->
+	  </div>
+</div>
+
+<div id="wrap_" class="view-container container">
+<form name="register_form">
+  <div class="form-group"  ng-class="{'has-error':register_form.username.$invalid && (register_form.username.$dirty || showError)}">
+    <label for="exampleInputEmail1">שם משתמש</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="שם משתמש" name="username" ng-model="user.username" required>
+  </div>
+  <div class="form-group" ng-class="{'has-error':register_form.firstname.$invalid && (register_form.firstname.$dirty || showError)}">
+    <label for="exampleInputEmail1">שם</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="שם" ng-model="user.firstname" name="firstname" required>
+  </div>
+    <div class="form-group"  ng-class="{'has-error':register_form.lastname.$invalid && (register_form.lastname.$dirty || showError)}">
+    <label for="exampleInputEmail1">שם משפחה</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="שם משפחה" ng-model="user.lastname" name="lastname" required>
+  </div>
+  <div class="form-group" ng-class="{'has-error':register_form.phone.$invalid && (register_form.phone.$dirty || showError)}">
+    <label for="exampleInputEmail1">טלפון</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="טלפון" ng-model="user.phone" name="phone" required>
+  </div>  
+  <div class="form-group" ng-class="{'has-error':register_form.password.$invalid && (register_form.password.$dirty || showError)}">
+    <label for="exampleInputEmail1">סיסמא</label>
+    <input type="password" class="form-control" id="exampleInputEmail1" name="password" placeholder="סיסמא" ng-model="user.password" required>
+  </div>
+</form>  
+</div>
+  
+  
+<div id="footer">
+  <div class="container">
+    <div class="col-xs-4">
+	 
+	</div>
+	<div class="col-xs-4">
+	   <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="goToLoginPage($event)">שלח</button>
+	</div>
+	<div class="col-xs-4">
+	   
+	</div>        
+  </div>
+</div>
