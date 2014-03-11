@@ -1,7 +1,7 @@
 /*global module:false*/
 
 module.exports = function(grunt) {
-
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-contrib-watch');
   // Project configuration.
@@ -11,30 +11,42 @@ module.exports = function(grunt) {
  	    distdir: 'dist',
 		pkg: grunt.file.readJSON('package.json'),
 		src: {
-			less:['less/*.less'],
-            js: ['js/**/*.js']		
+			less:['public-site/less/*.less'],
+            js: ['js/**/**/*.js']		
 		},
 		watch: {
 		  all: {
-			files: ['**/**/*.*'],		
+			files: ['**/**/*.*',  '!**/**/*.css'],		
 			options: {
 			  livereload: {
 				port: 9000
 			  }
-			}
+			}/*,
+			tasks: "recess"*/
 		  }
+		  
+		 
 		},//end of watch ---------
- 		recess: {
-		  build: {
-			files: {
-			  '<%= distdir %>/css/app.css':
-			  ['<%= src.less %>'] 
-			},
+		/*less: {
+		  dev: {
 			options: {
-			  compile: true
+			  paths: [""]
+			},
+			files: {
+			  "public-site/css/app.css": ["<%= src.less %>"]
 			}
 		  }
-		}//end of recess ---------
+		}*/		
+ 		recess: {
+			dist: {
+				options: {
+					compile: true
+				},
+				files: {
+					"public-site/css/app.css": ["<%= src.less %>"]
+				}
+			}
+		}///end of recess ---------
   });
  
   // These plugins provide necessary tasks.

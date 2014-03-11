@@ -80,58 +80,21 @@
     },
     templateUrl:'partials/mydatepicker.html',
 	controller:function($scope, $filter){
-	    console.log($scope.dt)
-		 
-       $scope.hour = $filter('date')($scope.dt, 'HH');
-	   $scope.minutes = $filter('date')($scope.dt, 'mm');
-	   $scope.$watch('hour',function(selectedHour, oldval){			
+	    
+		$scope.day = 'היום'; 
+        $scope.hour = $filter('date')($scope.dt, 'HH');
+	    $scope.minutes = $filter('date')($scope.dt, 'mm');
+	    $scope.$watch('hour',function(selectedHour, oldval){			
 			$scope.dt.setHours( selectedHour);	   
-	   })
-	   $scope.$watch('minutes',function(selectedMin, oldval){
+	    })
+	    $scope.$watch('minutes',function(selectedMin, oldval){
 			$scope.dt.setMinutes( selectedMin);
-	   }) 
+	    }) 
+	    $scope.$watch('day',function(selectedDay, oldval){
+	       if(selectedDay === 'מחר' ){
+				$scope.dt.setDate($scope.dt.getDate()+1)
+		   }
+	    })
 	}
-    /*	
-    link:function(scope, elem, attrs, ngModel){
-      
-      var newdt = new Date();
-      elem.find('input').on('change',function(e){
-        var hourInpt = elem.find('input')[1];		
-		var minuteInpt = elem.find('input')[0];
-		//prevent empty
-        hourInpt.value = hourInpt.value==''?0:hourInpt.value;
-		minuteInpt.value = minuteInpt.value==''?0:minuteInpt.value;
-		
-        var selectedHour = +hourInpt.value;
-        var selectedMin = +minuteInpt.value;
-		
-
-        
-        if(selectedMin>59 || selectedMin<0 || selectedHour>23 || selectedHour<0){
-			if(selectedMin>58)elem.find('input')[0].value=59;
-			if(selectedMin<0)elem.find('input')[0].value=0;
-			if(selectedHour>23)elem.find('input')[1].value=23;
-			if(selectedHour<0)elem.find('input')[1].value=0;			
-		}
-		else{		
-			newdt.setMinutes( selectedMin);
-			newdt.setHours( selectedHour);
-			
-			scope.$apply(function(){                    
-			  ngModel.$setViewValue(newdt);
-			  console.log('new date '+newdt);
-			}) 
-        } 		
-      })
-      elem.find('select').on('change',function(e){
-        if(elem.find('select').val()=='מחר'){
-          
-          scope.$apply(function(){            
-            ngModel.$setViewValue(newdt.setDate(newdt.getDate()+1))
-			console.log('new date '+newdt);
-          })              
-        }
-      })     
-    }*/
   }    
 })

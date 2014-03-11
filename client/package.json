@@ -4,7 +4,7 @@
   "dependencies": {
 	"grunt":"*",
 	"grunt-contrib-watch":"*",
-	"grunt-recess":"*"
+	"grunt-recess": "~0.3"
   },
   "scripts": {
 
