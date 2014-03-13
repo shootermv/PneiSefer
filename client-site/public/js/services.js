@@ -50,7 +50,8 @@ angular.module('Trempi')
 		      url: serverUrl +'/register',
               method: 'POST',
               data:user             
-			}).success(function(user, status, headers, config){				
+			}).success(function(_user, status, headers, config){	
+                changeUser(user);			
 				success();
 			}).error(function (_error, status, headers, config) {
                 error(_error);

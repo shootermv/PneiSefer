@@ -111,8 +111,25 @@
   }else{
 	$location.path('login');
   }
+  if( !$scope.user.type)$scope.user.type = 'driver';
+  
+  $scope.trempslist = {type : $scope.user.type == 'driver' ? 'trempist' : 'driver'};
+  $scope.$watch('trempslist.type',function(newVal ,oldVal){ 
+      if(!newVal) return;
+      $scope.loading = true;      	 
+      $scope.getTremps();
+  },true);
+  
+  $scope.switchType= function(){
+    
+	$scope.trempslist.type = $scope.trempslist.type == 'driver' ? 'trempist' : 'driver';
+	$scope.$apply();
+  };
+  
+  
   $scope.getTremps= function(){
       $scope.loading = true;
+	   $scope.user.type = $scope.trempslist.type;
 	  Tremps.getTremps($scope.user ,function(tremps){
 	    $scope.loading = false;
 		$scope.tremps = tremps;  
@@ -141,8 +158,8 @@
 	  
 
   });
-  $scope.fireEvent = function(){
-   alert('o')
+  $scope.exitApp = function(){
+    if(navigator && navigator.app) navigator.app.exitApp();
   }
   
 }])

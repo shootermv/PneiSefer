@@ -14,13 +14,22 @@
  <div id="wrap" class="view-container _container clearfix" > 
      
 	<div class="col-xs-9" >
+	  	<div class="btn-group-wrap" style="margin-bottom:20px">
+			<div class="btn-group">			
+				<button class="btn  btn-defaul btn-primary" ng-model="trempslist.type" btn-radio="'trempist'" >טרמפיסטים</button>
+				<button class="btn  btn-defaul btn-primary" ng-model="trempslist.type" btn-radio="'driver'">נהגים</button>	
+			</div>
+		</div>
+	    
+	
+	
 	   <div ng-if="loading"  class="loader-wrap">
          <div ng-include=" 'partials/loader.html' "></div>
        </div>
 	   <ul class="list-group" ng-show="!tremps.length && !loading && !error" >
 	    <li class="list-group-item" style="text-align:center" >
-		  	<h4  ng-if="user.type=='driver'">לא נרשמו טרמפיסטים עדיין</h4>
-			<h4  ng-if="user.type=='trempist'">לא נרשמו נהגים עדיין</h4>		
+		  	<h4  ng-if="trempslist.type=='trempist'">לא נרשמו טרמפיסטים עדיין</h4>
+			<h4  ng-if="trempslist.type=='driver'">לא נרשמו נהגים עדיין</h4>		
 	    </li>
        </ul>		
 	   <ul class="list-group"  ng-if="!loading">
@@ -42,13 +51,16 @@
 	</div>
 	
 	<div  class="col-xs-3">
-	<div class="btn-group-wrap">
-		<div class="btn-group">			
-			<button class="btn  btn-defaul btn-primary" ng-model="user.type" btn-radio="'trempist'" >טרמפיסט</button>
-			<button class="btn  btn-defaul btn-primary" ng-model="user.type" btn-radio="'driver'">נהג</button>	
+		<div class="btn-group-wrap">
+			<div class="btn-group">			
+				<button class="btn  btn-defaul btn-primary" ng-model="user.type" btn-radio="'trempist'" >טרמפיסט</button>
+				<button class="btn  btn-defaul btn-primary" ng-model="user.type" btn-radio="'driver'">נהג</button>	
+			</div>
 		</div>
-    </div>
     <hr/>	
+	
+	
+
 	
 	<form  ng-show="!authenticated"  class="form-signin form-group" ng-class="{'has-error':login_form.$invalid && login_form.$dirty || showError}" role="form" name="login_form">  
       
@@ -56,9 +68,29 @@
         <input type="password" name="password" class="form-control" placeholder="סיסמא" required="" ng-model="user.password"  >
         
           <label style="display:inline-block;margin-right:10px">
-		  זכור אותי</label>
+		  זכור אותי</label>		  		  		 
 		  <input type="checkbox" value="remember-me" class="pull-right" >
-       
+     <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3>I'm a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a ng-click="selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>		  
+	        
+		 
+		  <a href="#" class="pull-left" ng-click="open($event)">הרשמה</a> 
+
 		<div class="alert alert-danger" ng-show="login_form.$invalid && login_form.$dirty || showError">
 		שדות חובה
 		</div>
@@ -79,7 +111,17 @@
 	</div>
 	<hr/>
 	<!--<h4 style="text-align:center">טרמף חדש</h4>-->
-	<form   ng-if="authenticated" name="tremp_details" ng-hide="loading">
+	
+	
+	
+	
+		<div ng-if="formloading"  class="loader-wrap">
+         <div ng-include=" 'partials/loader.html' "></div>
+       </div>
+	
+	
+	
+	<form    name="tremp_details" ng-hide="formloading || !authenticated">
   <div class="form-group" ng-class="{'has-error':tremp_details.from.$invalid && (tremp_details.from.$dirty || showError)}">
     <label for="exampleInputEmail1">מאיפה</label>
     <input type="text" required class="form-control" id="exampleInputEmail1" placeholder="מאיפה" ng-model="tremp.from" name="from">
@@ -93,11 +135,13 @@
   	 <my-date-picker  ng-model="tremp.when"> </my-date-picker>
   </div>
 	   <button class="btn btn-default btn-primary btn-block" type="submit" ng-click="addTremp($event)">טרמף חדש</button>
-</form>  
-<div class="alert alert-danger" ng-show="tremp_details.$invalid && tremp_details.$dirty || showError">
-נא למלא שדות חובה
-</div>
+	   
+	   <div class="alert alert-danger" ng-show="tremp_details.$invalid && tremp_details.$dirty || showError">
+		נא למלא שדות חובה
+		</div>
 	
+</form>  
+
 	</div><!--end of left column-->
     	
 </div>

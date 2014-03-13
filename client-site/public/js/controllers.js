@@ -1,20 +1,40 @@
 ﻿angular.module("Trempi")
-.controller('LoginCtrl',['$scope', '$location', 'Auth', 'Gcm', 'Tremps' , function($scope, $location, Auth, Gcm ,Tremps){
+.controller('LoginCtrl',['$scope', '$location', 'Auth', 'Gcm', 'Tremps', '$modal', function($scope, $location, Auth, Gcm, Tremps, $modal){
+
+  
+  $scope.open = function ($event) {
+    $event.preventDefault();
+    var modalInstance = $modal.open({
+      templateUrl: 'partials/modal.html',
+      controller: 'ModalInstanceCtrl',
+	  scope:$scope,
+      resolve: {
+
+      }
+    });
+
+    modalInstance.result.then(function () {
+      $scope.user = Auth.user;
+	  $scope.authenticated = Auth.isAuthenticated();
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
+  };
+
+  /* end of modal */
   
 
   $scope.loading = true;  
 
   $scope.authenticated = Auth.isAuthenticated()
-  
+  $scope.trempslist = {type :'driver'}
   $scope.user = Auth.user;
   
   if(! $scope.user.type)$scope.user.type = 'driver';
-  $scope.$watch('user.type',function(newVal ,oldVal){ 
-     if(!newVal) return;
-     $scope.loading = true; 
-     
-	 
-	Tremps.query({type: $scope.user.type}, function(result) {
+  $scope.$watch('trempslist.type',function(newVal ,oldVal){ 
+    if(!newVal) return;
+    $scope.loading = true;      	 
+	Tremps.query({type: $scope.trempslist.type}, function(result) {
 	    $scope.loading = false;
         $scope.tremps = result;
     });
@@ -36,6 +56,7 @@
     $scope.error=null;
     Auth.login($scope.user, function(user){//on success			    
         $scope.user = user;
+		$scope.user.type = 'driver'		
 		$scope.authenticated = Auth.isAuthenticated();
 		$scope.loading = false;
 		
@@ -49,8 +70,8 @@
   $scope.LogOut = function($event){
      $event.preventDefault();
      Auth.logout(function(user){
-	    	$scope.user ={type : 'driver'};   
-			$scope.authenticated = Auth.isAuthenticated();
+		$scope.user ={type : 'driver'};   
+		$scope.authenticated = Auth.isAuthenticated();
 			
 	 },function(){
 	   alert('err')
@@ -58,18 +79,53 @@
    };
    
    //for new tremp
-   $scope.tremp = {};
-   $scope.tremp.when = new Date();
-   $scope.addTremp = function(){
+   $scope.tremp = {when : new Date()};
+   
+   $scope.addTremp = function($event){
+      $scope.formloading = true;
+ 	  if($scope.tremp_details.$invalid){
+	     $scope.showError =true;
+	     return false;
+	  }  
+      
       $scope.tremp.name = $scope.user.name;
-	  $scope.tremp.type  = $scope.user.type;
+	  $scope.tremp.type  = $scope.user.type;	  
+	  $scope.tremp.phone = $scope.user.phone;
       Tremps.save($scope.tremp,function(){
-            $scope.tremps.push($scope.tremp);
+	       $scope.formloading = false;
+           $scope.tremp_details.$setPristine();	  
+           if($scope.trempslist.type == $scope.tremp.type) $scope.tremps.push(angular.copy($scope.tremp));
+		   $scope.tremp = {when : new Date()};
 	  },function(){
-	  
+	     alert('error')
 	  });   
    }
    
+}])
+.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'Auth', function ($scope, $modalInstance, Auth) {
+
+	 
+
+
+   $scope.ok = function (register_form) {
+	console.log('user',$scope.user);
+ 	    if(register_form.$invalid){
+			$scope.showError =true;
+			return false;
+	    }   
+		
+      	Auth.register($scope.user, function(){//on success	
+          $modalInstance.close();
+		},function(error){
+			if(error=='')error='שגיאה'
+			$scope.error = error;
+	    });	
+      
+   };
+
+   $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+   };
 }])
 .controller('registerCtrl',['$scope', '$location', 'Auth', function($scope, $location, Auth){
    $scope.user = {};//Auth.user;

@@ -1,4 +1,4 @@
-angular.module("Trempi",['ngRoute', 'ngResource'])
+angular.module("Trempi",['ngRoute', 'ngResource', 'ui.bootstrap'])
 .config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.	  
